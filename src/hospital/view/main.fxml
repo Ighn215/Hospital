@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox prefHeight="699.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <MenuBar prefHeight="32.0" prefWidth="1102.0">
+     <menus>
+       <Menu mnemonicParsing="false" text="Файл">
+         <items>
+           <MenuItem mnemonicParsing="false" text="Close" />
+         </items>
+       </Menu>
+         <Menu mnemonicParsing="false" text="О программе">
+            <items>
+               <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+         </Menu>
+     </menus>
+   </MenuBar>
+   <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <children>
+        <MenuBar prefHeight="34.0" prefWidth="1102.0">
+          <Menu mnemonicParsing="false" text="File">
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </Menu>
+        </MenuBar>
+        <AnchorPane prefHeight="446.0" prefWidth="782.0">
+          <TableView layoutY="-1.0" prefHeight="550.0" prefWidth="1102.0">
+            <columns>
+              <TableColumn prefWidth="75.0" text="Номер" />
+              <TableColumn prefWidth="1026.0" text="Штаты">
+                <columns>
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Хирург" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Окулист" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Невролог" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Лор" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Кардиолог" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Эндокринолог" />
+                  <TableColumn maxWidth="146.0" minWidth="146.0" prefWidth="146.0" resizable="false" text="Терапевт" />
+                </columns>
+              </TableColumn>
+            </columns>
+          </TableView>
+            <ButtonBar layoutY="595.0" prefHeight="72.0" prefWidth="567.0">
+              <buttons>
+                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="179.0" text="Добавить" />
+                  <Button mnemonicParsing="false" text="Редактировать" />
+                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="296.0" text="Удалить" />
+              </buttons>
+            </ButtonBar>
+            <JFXToggleButton layoutX="618.0" layoutY="615.0" text="Только укомплетованные" />
+        </AnchorPane>
+      </children>
+   </AnchorPane>
+</VBox>
