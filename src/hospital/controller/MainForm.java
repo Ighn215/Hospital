@@ -1,4 +1,5 @@
 package hospital.controller;
 
-public class Controller {
+public class MainForm {
+    
 }
