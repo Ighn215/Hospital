@@ -10,7 +10,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hospital.controller.StorageOverview">
+<AnchorPane id="AnchorPane" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="hospital.controller.MainController">
+
     <MenuBar layoutX="-3.0" layoutY="7.0" prefHeight="42.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="Файл">
             <MenuItem mnemonicParsing="false" text="Новый" />
@@ -45,9 +47,9 @@
     </TableView>
     <ButtonBar layoutY="722.0" prefHeight="51.0" prefWidth="405.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
         <buttons>
-            <Button fx:id="newStorage" mnemonicParsing="false" prefHeight="32.0" text="Добавить" />
-            <Button fx:id="updateStorage" mnemonicParsing="false" prefHeight="32.0" text="Редактировать" />
-            <Button fx:id="deleteStorage" mnemonicParsing="false" prefHeight="32.0" prefWidth="355.0" text="Удалить" />
+            <Button onAction="#newStorage" mnemonicParsing="false" prefHeight="32.0" text="Добавить" />
+            <Button onAction="#editStorage" mnemonicParsing="false" prefHeight="32.0" text="Редактировать" />
+            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="355.0" text="Удалить" />
         </buttons>
     </ButtonBar>
 </AnchorPane>

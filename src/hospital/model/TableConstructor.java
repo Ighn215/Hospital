@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 
-public class MainTableConstructor {
+public class TableConstructor {
 
     private final IntegerProperty numHospital;
     private final StringProperty surgeon;
@@ -21,14 +21,14 @@ public class MainTableConstructor {
     /**
      * Конструктор по умолчанию.
      */
-    public MainTableConstructor() {
+    public TableConstructor() {
         this(0, null, null, null, null, null, null, null);
     }
 
     /**
      * Конструктор.
      */
-    public MainTableConstructor(Integer numHospital, String surgeon, String ophthalmologist, String neurologist, String lor, String cardiologist, String endocrinologist, String therapist) {
+    public TableConstructor(Integer numHospital, String surgeon, String ophthalmologist, String neurologist, String lor, String cardiologist, String endocrinologist, String therapist) {
         this.numHospital = new SimpleIntegerProperty(numHospital);
         this.surgeon = new SimpleStringProperty(surgeon);
         this.ophthalmologist = new SimpleStringProperty(ophthalmologist);
