@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -61,14 +62,13 @@ public class MainController {
         table.setItems(hospital);
     }
 
-    // подготавливаем данные для таблицы
-    // вы можете получать их с базы данных
+    // Тестовые данные для таблицы
     private void initData() {
         hospital.add(new TableConstructor(1,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
         hospital.add(new TableConstructor(2,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
         hospital.add(new TableConstructor(3,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
         hospital.add(new TableConstructor(4,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
-        hospital.add(new TableConstructor(5,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
+        hospital.add(new TableConstructor(5,"qqqqqqq", "wwwwwww", "eeeeeee", "aaaaaaaa", "ssssss", "dddddd", "zzzzzz"));
     }
 
     @FXML
@@ -78,7 +78,17 @@ public class MainController {
 
     @FXML
     public void editStorage(ActionEvent event) {
-        main.openEditDialog();
+        TableConstructor selectedHospital = table.getSelectionModel().getSelectedItem();
+        if (selectedHospital != null) {
+            main.openEditDialog(selectedHospital);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+           alert.setTitle("Ошибка.");
+            alert.setHeaderText("Строка не выбрана.");
+            alert.setContentText("Выберите строку для редактирования.");
+            alert.showAndWait();
+        }
+//        main.openEditDialog();
     }
 
 

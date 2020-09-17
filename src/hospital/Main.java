@@ -2,6 +2,7 @@ package hospital;
 
 import hospital.controller.MainController;
 import hospital.controller.StorageEditController;
+import hospital.model.TableConstructor;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,16 +43,24 @@ public class Main extends Application {
         }
     }
 
-    public void openEditDialog() {
+    public void openEditDialog(TableConstructor table) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/StorageEditDialog.fxml"));
-            Parent root = fxmlLoader.load();
+            FXMLLoader Loader = new FXMLLoader(getClass().getResource("view/StorageEditDialog.fxml"));
+            Parent root = Loader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setOpacity(1);
+            stage.setResizable(false);
             stage.setTitle("Редактировать данные");
+
+            StorageEditController controller = Loader.getController(); //получаем контроллер для второй формы
+            controller.setHospital(table);
+
             stage.setScene(new Scene(root, 450, 450));
             stage.showAndWait();
+
+
+
 
         }catch (IOException e) {
             e.printStackTrace();

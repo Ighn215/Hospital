@@ -52,7 +52,7 @@
     <ButtonBar layoutX="245.0" layoutY="233.0" prefHeight="46.0" prefWidth="403.0" AnchorPane.bottomAnchor="1.0"
                AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="421.0">
         <buttons>
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" text="Обновить"/>
+            <Button fx:id="updateButton" onAction="#updateData" mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" text="Обновить"/>
             <Button fx:id="closeButton" onAction="#closeDialog" mnemonicParsing="false" prefHeight="32.0" text="Отмена"/>
         </buttons>
     </ButtonBar>

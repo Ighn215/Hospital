@@ -43,6 +43,24 @@ public class StorageEditController {
         therapistField.setText(table.getTherapist());
     }
 
+    //Обновление данных
+    @FXML
+    private javafx.scene.control.Button updateButton;
+    public void updateData() {
+
+        table.setNumHospital(Integer.parseInt(numHospitalField.getText()));
+        table.setSurgeon(surgeonField.getText());
+        table.setOphthalmologist(ophthalmologistField.getText());
+        table.setNeurologist(neurologistField.getText());
+        table.setLor(lorField.getText());
+        table.setCardiologist(cardiologistField.getText());
+        table.setEndocrinologist(endocrinologistField.getText());
+        table.setTherapist(therapistField.getText());
+
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
     //Cancel Button
     @FXML
     private javafx.scene.control.Button closeButton;
