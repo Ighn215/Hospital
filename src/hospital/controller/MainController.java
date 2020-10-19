@@ -8,16 +8,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
@@ -28,6 +34,8 @@ public class MainController {
      * Ссылка на главное приложение.
      */
     private Main main;
+
+    private StorageListWrapper storage;
 
     /**
      * Таблица
@@ -87,13 +95,6 @@ public class MainController {
     }
 
 
-    public void clearData() {
-        List<TableConstructor> staffedHospitals = getHospitalData().stream()
-                .filter(this::isStaffed)
-                .collect(Collectors.toList());
-    }
-
-
     @FXML
     private void newStorage() {
         TableConstructor tempHospital = new TableConstructor();
@@ -131,6 +132,31 @@ public class MainController {
         }
     }
 
+    @FXML
+    public void openDoctorsDialog() throws IOException {
+        if (storage == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ошибка.");
+            alert.setHeaderText("Файл не загружен");
+            alert.setContentText("Загрузите файл");
+            alert.showAndWait();
+            return;
+        }
+
+        FXMLLoader Loader = new FXMLLoader(Main.class.getResource("view/Doctors.fxml"));
+        Parent root = Loader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setOpacity(1);
+        stage.setResizable(false);
+        stage.setTitle("Доктора");
+
+        DoctorsController controller = Loader.getController(); //получаем контроллер для второй формы
+        controller.setStorage(storage);
+
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+    }
 
     /**
      * Проверка на укомплектованность
@@ -163,20 +189,12 @@ public class MainController {
 
     public void loadIsStaffData(File file) {
         try {
-
-            JAXBContext context = JAXBContext.newInstance(StorageListWrapper.class);
-            Unmarshaller um = context.createUnmarshaller();
-
-            // Чтение XML из файла
-            StorageListWrapper wrapper = (StorageListWrapper) um.unmarshal(file);
-
-            List<TableConstructor> staffedHospitals = wrapper.getHospitals().stream()
+            List<TableConstructor> staffedHospitals = storage.getHospitals().stream()
                     .filter(this::isStaffed)
                     .collect(Collectors.toList());
 
             hospitalData.clear();
             hospitalData.addAll(staffedHospitals);
-//            hospitalData.addAll(wrapper.getHospitals());
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
@@ -217,10 +235,10 @@ public class MainController {
             Unmarshaller um = context.createUnmarshaller();
 
             // Чтение XML из файла
-            StorageListWrapper wrapper = (StorageListWrapper) um.unmarshal(file);
+            storage = (StorageListWrapper) um.unmarshal(file);
 
             hospitalData.clear();
-            hospitalData.addAll(wrapper.getHospitals());
+            hospitalData.addAll(storage.getHospitals());
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка");
@@ -314,7 +332,7 @@ public class MainController {
         Preferences prefs = Preferences.userNodeForPackage(Main.class);
         if (file != null) {
             prefs.put("filePath", file.getPath());
-            String name = file.getPath()+ "/" + file.getName();
+            String name = file.getPath();
             fileName.setText(name);
         } else {
             prefs.remove("filePath");
