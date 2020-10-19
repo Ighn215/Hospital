@@ -11,22 +11,25 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 public class Main extends Application {
+    private Stage primaryStage;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         FXMLLoader Loader = new FXMLLoader(getClass().getResource("view/Main.fxml"));
         Parent root = Loader.load();
-        primaryStage.getIcons().add(new Image("hospital/resources/icon.png"));
-        primaryStage.setTitle("Управление персоналом больницы");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root));
+        Stage stage = new Stage();
+        stage.getIcons().add(new Image("hospital/resources/icon.png"));
+        stage.setTitle("Управление персоналом больницы");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root));
         MainController controller = Loader.getController(); //получаем контроллер для второй формы
         controller.setMain(this);
-        primaryStage.show();
-
+        stage.show();
     }
 
     public boolean openDialog(TableConstructor table) {
@@ -45,13 +48,34 @@ public class Main extends Application {
             stage.setScene(new Scene(root));
             stage.showAndWait();
             return controller.isOkClicked();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Получает путь до файла
+     */
+    public File getFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Возвращает главную сцену.
+     */
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
+
 }

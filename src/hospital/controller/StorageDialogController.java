@@ -95,7 +95,6 @@ public class StorageDialogController {
         if (errorMessage.length() == 0) {
             return true;
         } else {
-            // Показываем сообщение об ошибке.
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Ошибка ввода");
             alert.setHeaderText("Ошибка ввода");
@@ -118,4 +117,6 @@ public class StorageDialogController {
         }
         return false;
     }
+
+
 }
