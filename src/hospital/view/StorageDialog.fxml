@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="468.0" minWidth="667.0"
             prefHeight="468.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="hospital.controller.StorageEditController">
+            fx:controller="hospital.controller.StorageDialogController">
 
     <GridPane layoutX="18.0" prefHeight="400.0" prefWidth="582.0" AnchorPane.leftAnchor="18.0"
               AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="20.0">
@@ -52,7 +52,7 @@
     <ButtonBar layoutX="245.0" layoutY="233.0" prefHeight="46.0" prefWidth="403.0" AnchorPane.bottomAnchor="1.0"
                AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="421.0">
         <buttons>
-            <Button fx:id="updateButton" onAction="#updateData" mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" text="Обновить"/>
+            <Button onAction="#addData" mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" text="Добавить"/>
             <Button fx:id="closeButton" onAction="#closeDialog" mnemonicParsing="false" prefHeight="32.0" text="Отмена"/>
         </buttons>
     </ButtonBar>

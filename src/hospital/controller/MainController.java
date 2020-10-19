@@ -1,29 +1,24 @@
 package hospital.controller;
 
-import com.jfoenix.controls.JFXToggleButton;
 import hospital.Main;
 import hospital.model.TableConstructor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class MainController {
 
-    //Ссылка на главный класс
-    private Main main = new Main();
-    private Stage primaryStage;
+    /**
+     * Ссылка на главное приложение.
+     * */
+    private Main main;
 
-    private final ObservableList<TableConstructor> hospital = FXCollections.observableArrayList();
-
-    //Table
-    @FXML
-    private JFXToggleButton toggle;
+    /**
+     * Таблица*/
     @FXML
     private TableView<TableConstructor> table;
     @FXML
@@ -43,54 +38,89 @@ public class MainController {
     @FXML
     private TableColumn<TableConstructor, String> therapist;
 
-    // инициализируем форму данными
+    /**
+     * Вызывается главным приложением, которое даёт на себя ссылку.
+     */
+    public void setMain(Main main) {
+        this.main = main;
+        // Добавление в таблицу данных из списка
+        table.setItems(getHospitalData());
+    }
+
+    /**
+     * Инициализация класса-контроллера. Этот метод вызывается автоматически
+     * после того, как fxml-файл будет загружен.
+     */
     @FXML
     private void initialize() {
-        initData();
-
-        // устанавливаем тип и значение которое должно хранится в колонке
-        numHospital.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("numHospital"));
-        surgeon.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("surgeon"));
-        ophthalmologist.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("ophthalmologist"));
-        neurologist.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("neurologist"));
-        lor.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("lor"));
-        cardiologist.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("cardiologist"));
-        endocrinologist.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("endocrinologist"));
-        therapist.setCellValueFactory(new PropertyValueFactory<TableConstructor, String>("therapist"));
-
-        // заполняем таблицу данными
-        table.setItems(hospital);
+        // Инициализация таблицы.
+        numHospital.setCellValueFactory(cellData -> cellData.getValue().numHospitalProperty().asString());
+        surgeon.setCellValueFactory(cellData -> cellData.getValue().surgeonProperty());
+        ophthalmologist.setCellValueFactory(cellData -> cellData.getValue().ophthalmologistProperty());
+        neurologist.setCellValueFactory(cellData -> cellData.getValue().neurologistProperty());
+        lor.setCellValueFactory(cellData -> cellData.getValue().lorProperty());
+        cardiologist.setCellValueFactory(cellData -> cellData.getValue().cardiologistProperty());
+        endocrinologist.setCellValueFactory(cellData -> cellData.getValue().endocrinologistProperty());
+        therapist.setCellValueFactory(cellData -> cellData.getValue().therapistProperty());
     }
 
-    // Тестовые данные для таблицы
-    private void initData() {
-        hospital.add(new TableConstructor(1,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
-        hospital.add(new TableConstructor(2,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
-        hospital.add(new TableConstructor(3,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
-        hospital.add(new TableConstructor(4,"qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd", "qweasd"));
-        hospital.add(new TableConstructor(5,"qqqqqqq", "wwwwwww", "eeeeeee", "aaaaaaaa", "ssssss", "dddddd", "zzzzzz"));
+    private final ObservableList<TableConstructor> hospitalData = FXCollections.observableArrayList();
+    public ObservableList<TableConstructor> getHospitalData() {
+        return hospitalData;
     }
 
     @FXML
-    public void newStorage(ActionEvent event) {
-        main.openAddDialog();
+    private void newStorage() {
+        TableConstructor tempHospital = new TableConstructor();
+        boolean okClicked = main.openDialog(tempHospital);
+        if (okClicked) {
+            getHospitalData().add(tempHospital);
+        }
     }
 
     @FXML
-    public void editStorage(ActionEvent event) {
+    public void editStorage() {
         TableConstructor selectedHospital = table.getSelectionModel().getSelectedItem();
         if (selectedHospital != null) {
-            main.openEditDialog(selectedHospital);
+            main.openDialog(selectedHospital);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-           alert.setTitle("Ошибка.");
+            alert.setTitle("Ошибка.");
             alert.setHeaderText("Строка не выбрана.");
             alert.setContentText("Выберите строку для редактирования.");
             alert.showAndWait();
         }
-//        main.openEditDialog();
     }
 
+    @FXML
+    private void deleteStorage() {
+        int selectedIndex = table.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            table.getItems().remove(selectedIndex);
+        } else {
+            // Ничего не выбрано.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ошибка.");
+            alert.setHeaderText("Строка не выбрана.");
+            alert.setContentText("Выберите строку для удаления.");
+            alert.showAndWait();
+        }
+    }
 
-
+    /**
+    * Проверка на укомплектованность
+    * */
+    private boolean isStaffed(TableConstructor table) {
+        return isNotEmpty(table.getCardiologist())
+                && isNotEmpty(table.getSurgeon())
+                && isNotEmpty(table.getOphthalmologist())
+                && isNotEmpty(table.getNeurologist())
+                && isNotEmpty(table.getLor())
+                && isNotEmpty(table.getCardiologist())
+                && isNotEmpty(table.getEndocrinologist())
+                && isNotEmpty(table.getTherapist());
+    }
+    private boolean isNotEmpty(String str) {
+        return str != null && !str.isBlank();
+    }
 }

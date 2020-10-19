@@ -49,7 +49,7 @@
         <buttons>
             <Button onAction="#newStorage" mnemonicParsing="false" prefHeight="32.0" text="Добавить" />
             <Button onAction="#editStorage" mnemonicParsing="false" prefHeight="32.0" text="Редактировать" />
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="355.0" text="Удалить" />
+            <Button onAction="#deleteStorage" mnemonicParsing="false" prefHeight="32.0" prefWidth="355.0" text="Удалить" />
         </buttons>
     </ButtonBar>
 </AnchorPane>
