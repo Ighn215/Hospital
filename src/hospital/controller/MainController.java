@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
@@ -18,6 +19,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.util.List;
+import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
 public class MainController {
@@ -32,6 +34,8 @@ public class MainController {
      */
     @FXML
     private JFXToggleButton toggle;
+    @FXML
+    private Label fileName;
     @FXML
     private TableView<TableConstructor> table;
     @FXML
@@ -127,16 +131,6 @@ public class MainController {
         }
     }
 
-    @FXML
-    private void filterData() {
-        toggle.setOnAction(event -> {
-            if (toggle.isSelected()) {
-                getHospitalData().clear();
-            } else {
-                System.out.println("WEWEW");
-            }
-        });
-    }
 
     /**
      * Проверка на укомплектованность
@@ -162,14 +156,61 @@ public class MainController {
      */
     @FXML
     private void exit() {
+        setFilePath(null);
         System.exit(0);
+    }
+
+
+    public void loadIsStaffData(File file) {
+        try {
+
+            JAXBContext context = JAXBContext.newInstance(StorageListWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+
+            // Чтение XML из файла
+            StorageListWrapper wrapper = (StorageListWrapper) um.unmarshal(file);
+
+            List<TableConstructor> staffedHospitals = wrapper.getHospitals().stream()
+                    .filter(this::isStaffed)
+                    .collect(Collectors.toList());
+
+            hospitalData.clear();
+            hospitalData.addAll(staffedHospitals);
+//            hospitalData.addAll(wrapper.getHospitals());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setContentText("Не удалось загрузить данные из файла:\n" + file.getPath());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void loadFilterData() {
+        File file = getFilePath();
+        if (file != null) {
+            if (toggle.isSelected()) {
+                toggle.setText("Нажмите чтобы показать весь список");
+                loadIsStaffData(file);
+            } else {
+                toggle.setText("Нажмите чтобы показать только укомплектовынные больницы");
+                loadDataFromFile(file);
+            }
+        }
+    }
+
+
+    @FXML
+    private void openPrevFile() {
+        File file = getFilePath();
+        loadDataFromFile(file);
     }
 
     /**
      * Загружает информацию об адресатах из указанного файла.
-     * Текущая информация об адресатах будет заменена.
+     * Текущая информация будет заменена.
      */
-    public void loadPersonDataFromFile(File file) {
+    public void loadDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(StorageListWrapper.class);
@@ -192,7 +233,7 @@ public class MainController {
     /**
      * Сохраняет текущую информацию об адресатах в указанном файле.
      */
-    public void savePersonDataToFile(File file) {
+    public void saveDataToFile(File file) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(StorageListWrapper.class);
@@ -221,6 +262,7 @@ public class MainController {
     @FXML
     private void newFile() {
         getHospitalData().clear();
+        setFilePath(null);
     }
 
     /**
@@ -235,9 +277,11 @@ public class MainController {
         // Диалог загрузки файла
         File file = fileChooser.showOpenDialog(main.getPrimaryStage());
         if (file != null) {
-            loadPersonDataFromFile(file);
+            setFilePath(file);
+            loadDataFromFile(file);
         }
     }
+
 
     /**
      * Сохраняет файл, который открыт.
@@ -245,11 +289,36 @@ public class MainController {
      */
     @FXML
     private void saveFile() {
-        File personFile = main.getFilePath();
-        if (personFile != null) {
-            savePersonDataToFile(personFile);
+        File file = getFilePath();
+        if (file != null) {
+            saveDataToFile(file);
         } else {
             saveFileAs();
+        }
+    }
+
+    /**
+     * Получает путь до файла
+     */
+    public File getFilePath() {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);
+        String filePath = prefs.get("filePath", null);
+        if (filePath != null) {
+            return new File(filePath);
+        } else {
+            return null;
+        }
+    }
+
+    public void setFilePath(File file) {
+        Preferences prefs = Preferences.userNodeForPackage(Main.class);
+        if (file != null) {
+            prefs.put("filePath", file.getPath());
+            String name = file.getPath()+ "/" + file.getName();
+            fileName.setText(name);
+        } else {
+            prefs.remove("filePath");
+
         }
     }
 
@@ -267,10 +336,9 @@ public class MainController {
             if (!file.getPath().endsWith(".xml")) {
                 file = new File(file.getPath() + ".xml");
             }
-            savePersonDataToFile(file);
+            saveDataToFile(file);
         }
     }
-
 
 
 }

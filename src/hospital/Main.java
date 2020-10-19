@@ -10,10 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.prefs.Preferences;
+
 
 public class Main extends Application {
     private Stage primaryStage;
@@ -51,19 +49,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    /**
-     * Получает путь до файла
-     */
-    public File getFilePath() {
-        Preferences prefs = Preferences.userNodeForPackage(Main.class);
-        String filePath = prefs.get("filePath", null);
-        if (filePath != null) {
-            return new File(filePath);
-        } else {
-            return null;
         }
     }
 

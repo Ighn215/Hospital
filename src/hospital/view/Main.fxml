@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,8 +11,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<?import com.jfoenix.controls.JFXToggleButton?>
 <AnchorPane id="AnchorPane" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="hospital.controller.MainController">
@@ -58,12 +60,18 @@
     <ButtonBar layoutY="722.0" prefHeight="51.0" prefWidth="405.0" AnchorPane.bottomAnchor="0.0"
                AnchorPane.leftAnchor="0.0">
         <buttons>
-            <Button onAction="#newStorage" mnemonicParsing="false" prefHeight="32.0" text="Добавить"/>
-            <Button onAction="#editStorage" mnemonicParsing="false" prefHeight="32.0" text="Редактировать"/>
-            <Button onAction="#deleteStorage" mnemonicParsing="false" prefHeight="32.0" prefWidth="355.0"
+            <Button mnemonicParsing="false" onAction="#newStorage" prefHeight="32.0" text="Добавить"/>
+            <Button mnemonicParsing="false" onAction="#editStorage" prefHeight="32.0" text="Редактировать"/>
+            <Button mnemonicParsing="false" onAction="#deleteStorage" prefHeight="32.0" prefWidth="355.0"
                     text="Удалить"/>
-            <JFXToggleButton onAction="#filterData" fx:id="toggle" layoutX="599.0" layoutY="21.0"
-                             text="Показать только укомплектовынные больницы"/>
         </buttons>
     </ButtonBar>
+    <JFXToggleButton fx:id="toggle" layoutX="422.0" layoutY="714.0" onAction="#loadFilterData"
+                     text="Нажмите чтоьы показать только укомплектовынные больницы"/>
+    <Button layoutX="773.0" layoutY="631.0" mnemonicParsing="false" onAction="#openPrevFile" prefHeight="32.0"
+            prefWidth="247.0" text="Открыть последний сохраненный файл"/>
+    <Label layoutX="23.0" layoutY="631.0" text="Редактируемый файл:">
+        <font><Font size="14.0"/></font>
+    </Label>
+    <Label fx:id="fileName" layoutX="175.0" layoutY="633.0"/>
 </AnchorPane>
